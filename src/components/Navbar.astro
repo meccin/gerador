@@ -1,0 +1,45 @@
+---
+import ThemeToggle from '@/components/ThemeToggle'
+import MobileMenu from '@/components/MobileMenu'
+
+const links = [
+  { href: '/', label: 'CPF / CNPJ / RG' },
+  { href: '/credit-card', label: 'Cartão de Crédito' },
+  { href: '/json-pretty', label: 'JSON Pretty' },
+  { href: '/base64-encode-decode', label: 'Base64' },
+]
+
+const currentPath = Astro.url.pathname
+---
+
+<header class="border-b border-border bg-background/95 backdrop-blur-sm sticky top-0 z-50">
+  <div class="max-w-4xl mx-auto px-4 h-14 flex items-center justify-between">
+    <a href="/" class="font-bold text-lg text-foreground hover:text-foreground/80 transition-colors">
+      Gerador
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex items-center gap-1">
+      {links.map(({ href, label }) => (
+        <a
+          href={href}
+          class:list={[
+            'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+            currentPath === href
+              ? 'bg-primary text-primary-foreground'
+              : 'text-muted-foreground hover:text-foreground hover:bg-accent',
+          ]}
+        >
+          {label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <ThemeToggle client:load />
+      <div class="md:hidden">
+        <MobileMenu links={links} client:visible />
+      </div>
+    </div>
+  </div>
+</header>

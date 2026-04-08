@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import DocumentGenerator from '@/components/DocumentGenerator'
+---
+
+<BaseLayout
+  title="CPF / CNPJ / RG"
+  description="Gerador de CPF, CNPJ e RG válidos para testes de desenvolvimento."
+>
+  <DocumentGenerator client:load />
+</BaseLayout>

@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import CreditCardGenerator from '@/components/CreditCardGenerator'
+---
+
+<BaseLayout
+  title="Cartão de Crédito"
+  description="Gerador de cartão de crédito válido para testes de desenvolvimento."
+>
+  <CreditCardGenerator client:load />
+</BaseLayout>

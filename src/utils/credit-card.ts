@@ -1,5 +1,5 @@
 import { CreditCardBrand } from '../enums'
-import { ICreditCard } from '../interfaces'
+import type { ICreditCard } from '../interfaces'
 
 export const onGenerateCreditCard = (brand: CreditCardBrand): ICreditCard => {
   let number = generateCardNumber(brand)

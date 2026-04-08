@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import JsonPretty from '@/components/JsonPretty'
+---
+
+<BaseLayout
+  title="JSON Pretty"
+  description="Formatador de JSON com syntax highlighting para facilitar a leitura."
+>
+  <JsonPretty client:load />
+</BaseLayout>

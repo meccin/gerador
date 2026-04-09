@@ -27,7 +27,10 @@ export default function MobileMenu({ links }: Props) {
       <DropdownMenuContent align="end" className="w-52">
         {links.map(({ href, label }) => (
           <DropdownMenuItem key={href} asChild>
-            <a href={href} className="cursor-pointer">
+            <a
+              href={href}
+              className="cursor-pointer text-sm underline decoration-dashed decoration-primary underline-offset-4"
+            >
               {label}
             </a>
           </DropdownMenuItem>

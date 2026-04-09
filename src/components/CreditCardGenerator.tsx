@@ -76,6 +76,7 @@ function CardCopyButton({ text }: { text: string }) {
 export default function CreditCardGenerator() {
   const [brand, setBrand] = useState(CreditCardBrand.VISA)
   const [card, setCard] = useState<ICreditCard | null>(null)
+  const [spinning, setSpinning] = useState(false)
 
   const generate = (b: CreditCardBrand) => {
     setBrand(b)
@@ -109,9 +110,9 @@ export default function CreditCardGenerator() {
           className="relative w-full sm:w-[24rem] rounded-2xl shadow-2xl overflow-hidden"
           style={{ aspectRatio: '1.586 / 1' }}
         >
-          {/* Gradient background */}
-          <div className="absolute inset-0 bg-gradient-to-br from-violet-600 via-purple-700 to-indigo-900" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,255,255,0.12)_0%,_transparent_60%)]" />
+          {/* Gradient background — neutral dark */}
+          <div className="absolute inset-0 bg-gradient-to-br from-zinc-600 via-zinc-700 to-zinc-900" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,255,255,0.10)_0%,_transparent_60%)]" />
 
           {/* Card content */}
           <div className="relative h-full flex flex-col justify-between p-5 sm:p-6">
@@ -157,8 +158,17 @@ export default function CreditCardGenerator() {
         {/* Gerar novo */}
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="outline" size="icon" onClick={() => generate(brand)} aria-label="Gerar novo">
-              <RefreshCw className="h-4 w-4" />
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => { setSpinning(true); generate(brand) }}
+              aria-label="Gerar novo"
+            >
+              <RefreshCw
+                className="h-4 w-4"
+                style={spinning ? { animation: 'spin-once 0.5s ease-in-out' } : {}}
+                onAnimationEnd={() => setSpinning(false)}
+              />
             </Button>
           </TooltipTrigger>
           <TooltipContent><p>Gerar novo</p></TooltipContent>

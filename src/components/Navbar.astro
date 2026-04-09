@@ -19,15 +19,15 @@ const currentPath = Astro.url.pathname
     </a>
 
     <!-- Desktop nav -->
-    <nav class="hidden md:flex items-center gap-1">
+    <nav class="hidden md:flex items-center gap-5">
       {links.map(({ href, label }) => (
         <a
           href={href}
           class:list={[
-            'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+            'text-sm font-medium transition-all underline decoration-dashed underline-offset-4',
             currentPath === href
-              ? 'bg-primary text-primary-foreground'
-              : 'text-muted-foreground hover:text-foreground hover:bg-accent',
+              ? 'text-foreground decoration-primary'
+              : 'text-muted-foreground decoration-transparent hover:text-foreground hover:decoration-primary',
           ]}
         >
           {label}

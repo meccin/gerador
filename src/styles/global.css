@@ -57,6 +57,11 @@ body {
   color: var(--color-foreground);
 }
 
+/* One-shot spin for refresh icons */
+@keyframes spin-once {
+  to { transform: rotate(360deg); }
+}
+
 /* Shiki dual-theme: CSS controls which color set is applied based on .dark class */
 .shiki,
 .shiki span {

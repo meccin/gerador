@@ -21,6 +21,7 @@ export default function DocumentGenerator() {
   const [docType, setDocType] = useState(DocumentType.CPF)
   const [document, setDocument] = useState('')
   const [mask, setMask] = useState(true)
+  const [spinning, setSpinning] = useState(false)
 
   const generate = (type: DocumentType, withMask = mask) => {
     setDocType(type)
@@ -93,10 +94,14 @@ export default function DocumentGenerator() {
               <Button
                 variant="outline"
                 size="icon"
-                onClick={() => generate(docType)}
+                onClick={() => { setSpinning(true); generate(docType) }}
                 aria-label="Gerar novo"
               >
-                <RefreshCw className="h-4 w-4" />
+                <RefreshCw
+                  className="h-4 w-4"
+                  style={spinning ? { animation: 'spin-once 0.5s ease-in-out' } : {}}
+                  onAnimationEnd={() => setSpinning(false)}
+                />
               </Button>
             </TooltipTrigger>
             <TooltipContent>

@@ -63,7 +63,7 @@ export default function DocumentGenerator() {
       {/* Generated value */}
       <span
         key={document}
-        className="text-3xl font-mono font-semibold tracking-wider text-foreground select-all animate-in fade-in slide-in-from-top-2 duration-200"
+        className="text-2xl sm:text-3xl font-mono font-semibold tracking-wide text-foreground select-all animate-in fade-in slide-in-from-top-2 duration-200"
       >
         {document}
       </span>

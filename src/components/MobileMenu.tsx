@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Menu } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import {
@@ -17,6 +18,16 @@ interface Props {
 }
 
 export default function MobileMenu({ links }: Props) {
+  const [currentPath, setCurrentPath] = useState('')
+
+  useEffect(() => {
+    const update = () => setCurrentPath(window.location.pathname)
+    update()
+    // Re-check after every Astro View Transitions navigation
+    document.addEventListener('astro:page-load', update)
+    return () => document.removeEventListener('astro:page-load', update)
+  }, [])
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -29,7 +40,11 @@ export default function MobileMenu({ links }: Props) {
           <DropdownMenuItem key={href} asChild>
             <a
               href={href}
-              className="cursor-pointer text-sm underline decoration-dashed decoration-primary underline-offset-4"
+              className={`cursor-pointer text-sm underline decoration-dashed underline-offset-4 transition-all ${
+                currentPath === href
+                  ? 'text-foreground decoration-primary'
+                  : 'text-muted-foreground decoration-transparent'
+              }`}
             >
               {label}
             </a>

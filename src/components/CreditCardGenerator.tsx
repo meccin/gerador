@@ -148,7 +148,7 @@ export default function CreditCardGenerator() {
               <img
                 src={`/brands/${card.brand}.svg`}
                 alt={card.brand}
-                className="h-8 w-auto"
+                className="h-7 w-14 object-contain object-right shrink-0"
               />
             </div>
           </div>

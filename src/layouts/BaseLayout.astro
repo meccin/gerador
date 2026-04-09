@@ -30,16 +30,21 @@ const ga = import.meta.env.PUBLIC_GOOGLE_ANALYTICS
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <ClientRouter />
-    <!-- Dark mode: prevent flash of wrong theme -->
+    <!-- Dark mode: prevent FOUC + restore after View Transitions page swap -->
     <script is:inline>
       ;(function () {
-        const stored = localStorage.getItem('theme')
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        if (stored === 'dark' || (!stored && prefersDark)) {
-          document.documentElement.classList.add('dark')
-        } else {
-          document.documentElement.classList.remove('dark')
+        function applyTheme() {
+          const stored = localStorage.getItem('theme')
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+          if (stored === 'dark' || (!stored && prefersDark)) {
+            document.documentElement.classList.add('dark')
+          } else {
+            document.documentElement.classList.remove('dark')
+          }
         }
+        applyTheme()
+        // Re-apply after Astro View Transitions swaps the <html> attributes
+        document.addEventListener('astro:after-swap', applyTheme)
       })()
     </script>
     {ga && (

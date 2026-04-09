@@ -12,10 +12,6 @@ export default function JsonPretty() {
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  const isDark = () =>
-    typeof document !== 'undefined' &&
-    document.documentElement.classList.contains('dark')
-
   const handlePrettify = async () => {
     setError(false)
     setLoading(true)
@@ -31,10 +27,12 @@ export default function JsonPretty() {
         langs: [import('shiki/langs/json.mjs')],
         engine: createJavaScriptRegexEngine(),
       })
+      // defaultColor: false → Shiki embeds both themes as CSS vars (--shiki-light / --shiki-dark)
+      // The .dark CSS rules in global.css pick the right one automatically
       const html = highlighter.codeToHtml(parsed, {
         lang: 'json',
         themes: { light: 'github-light', dark: 'github-dark' },
-        defaultColor: isDark() ? 'dark' : 'light',
+        defaultColor: false,
       })
       setHighlighted(html)
     } catch {

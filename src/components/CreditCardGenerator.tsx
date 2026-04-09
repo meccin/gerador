@@ -110,9 +110,8 @@ export default function CreditCardGenerator() {
           className="relative w-full sm:w-[24rem] rounded-2xl shadow-2xl overflow-hidden"
           style={{ aspectRatio: '1.586 / 1' }}
         >
-          {/* Gradient background — neutral dark */}
-          <div className="absolute inset-0 bg-gradient-to-br from-zinc-600 via-zinc-700 to-zinc-900" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(255,255,255,0.10)_0%,_transparent_60%)]" />
+          {/* Plain background */}
+          <div className="absolute inset-0 bg-zinc-700" />
 
           {/* Card content */}
           <div className="relative h-full flex flex-col justify-between p-5 sm:p-6">

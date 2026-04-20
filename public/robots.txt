@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gerador.dev.br/sitemap-index.xml

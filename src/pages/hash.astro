@@ -1,0 +1,11 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import HashGenerator from '@/components/HashGenerator'
+---
+
+<BaseLayout
+  title="Hash"
+  description="Gerador de hashes MD5, SHA-1, SHA-256, SHA-384 e SHA-512."
+>
+  <HashGenerator client:load />
+</BaseLayout>

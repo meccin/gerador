@@ -8,6 +8,8 @@
 
 - Base64 Encode e Decode.
 
+- Gerador de Hash (MD5, SHA-1, SHA-256, SHA-384 e SHA-512).
+
 ### _Acesse: [gerador.dev.br](https://gerador.dev.br)_
 
 ## Por quê?
@@ -34,6 +36,7 @@ Pois bem, assim nasceu o querido Gerador.
 - [x] JSON Pretty
 - [x] Gerador de Cartão de Crédito válido
 - [x] Base64 Encoding e Decoding
+- [x] Gerador de Hash (MD5, SHA-1, SHA-256, SHA-384, SHA-512)
 
 ## Colabore
 

@@ -32,6 +32,7 @@ Pois bem, assim nasceu o querido Gerador.
 
 - [x] Gerador de CPF válido
 - [x] Gerador de CNPJ válido
+- [x] Gerador de CNPJ alfanumérico (Instrução Normativa RFB 2.229/2024)
 - [x] Gerador de RG válido
 - [x] JSON Pretty
 - [x] Gerador de Cartão de Crédito válido

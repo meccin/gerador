@@ -47,54 +47,53 @@ export const onGenerateCPF = (masked: boolean): string => {
   return `${n1}${n2}${n3}${n4}${n5}${n6}${n7}${n8}${n9}${d1}${d2}`
 }
 
-export const onGenerateCNPJ = (masked: boolean): string => {
-  const total = 8
-  const number = 9
-  const [n1, n2, n3, n4, n5, n6, n7, n8] = initialArray(total, number)
+const CNPJ_WEIGHTS = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+const DIGITS = '0123456789'
+const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
-  const n9 = 0
-  const n10 = 0
-  const n11 = 0
-  const n12 = 1
+const randomChar = (chars: string) => chars[numberRandom(chars.length - 1)]
 
-  let d1 =
-    n12 * 2 +
-    n11 * 3 +
-    n10 * 4 +
-    n9 * 5 +
-    n8 * 6 +
-    n7 * 7 +
-    n6 * 8 +
-    n5 * 9 +
-    n4 * 2 +
-    n3 * 3 +
-    n2 * 4 +
-    n1 * 5
-  d1 = 11 - mod(d1, 11)
-  if (d1 >= 10) d1 = 0
+// Cálculo dos DVs conforme especificação SERPRO do CNPJ alfanumérico:
+// valor de cada caractere = código ASCII - 48 (dígitos mantêm seu valor).
+export const calculateCNPJDV = (base: string): string => {
+  let sum1 = 0
+  let sum2 = 0
+  for (let i = 0; i < 12; i++) {
+    const value = base.charCodeAt(i) - 48
+    sum1 += value * CNPJ_WEIGHTS[i + 1]
+    sum2 += value * CNPJ_WEIGHTS[i]
+  }
+  const d1 = sum1 % 11 < 2 ? 0 : 11 - (sum1 % 11)
+  sum2 += d1 * CNPJ_WEIGHTS[12]
+  const d2 = sum2 % 11 < 2 ? 0 : 11 - (sum2 % 11)
+  return `${d1}${d2}`
+}
 
-  let d2 =
-    d1 * 2 +
-    n12 * 3 +
-    n11 * 4 +
-    n10 * 5 +
-    n9 * 6 +
-    n8 * 7 +
-    n7 * 8 +
-    n6 * 9 +
-    n5 * 2 +
-    n4 * 3 +
-    n3 * 4 +
-    n2 * 5 +
-    n1 * 6
-  d2 = 11 - mod(d2, 11)
-  if (d2 >= 10) d2 = 0
+export const onGenerateCNPJ = (
+  masked: boolean,
+  alphanumeric = false
+): string => {
+  const chars = alphanumeric ? DIGITS + LETTERS : DIGITS
+  const root = Array.from(Array(8), () => randomChar(chars))
 
-  if (masked) {
-    return `${n1}${n2}.${n3}${n4}${n5}.${n6}${n7}${n8}/${n9}${n10}${n11}${n12}-${d1}${d2}`
+  // Garante ao menos uma letra na raiz do CNPJ alfanumérico
+  if (alphanumeric && !root.some((c) => LETTERS.includes(c))) {
+    root[numberRandom(7)] = randomChar(LETTERS)
   }
 
-  return `${n1}${n2}${n3}${n4}${n5}${n6}${n7}${n8}${n9}${n10}${n11}${n12}${d1}${d2}`
+  // Ordem do estabelecimento: numérico fixo em matriz (0001);
+  // alfanumérico aleatório, exceto "0000" que não é válida
+  let order = '0001'
+  if (alphanumeric) {
+    do {
+      order = Array.from(Array(4), () => randomChar(chars)).join('')
+    } while (order === '0000')
+  }
+
+  const base = `${root.join('')}${order}`
+  const cnpj = `${base}${calculateCNPJDV(base)}`
+
+  return masked ? onSetMask(cnpj, DocumentType.CNPJ) : cnpj
 }
 
 export const onGenerateRG = (masked: boolean): string => {
@@ -123,7 +122,7 @@ export const onSetMask = (value: string, type: DocumentType): string => {
 
     case DocumentType.CNPJ:
       return value.replace(
-        /(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/g,
+        /([A-Z\d]{2})([A-Z\d]{3})([A-Z\d]{3})([A-Z\d]{4})(\d{2})/g,
         '$1.$2.$3/$4-$5'
       )
 
@@ -134,3 +133,6 @@ export const onSetMask = (value: string, type: DocumentType): string => {
       return value
   }
 }
+
+export const onRemoveMask = (value: string): string =>
+  value.replace(/[./-]/g, '')
